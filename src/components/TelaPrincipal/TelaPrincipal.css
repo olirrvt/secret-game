@@ -20,7 +20,7 @@ button {
 }
 
 button:hover {
-    background: rgba(252, 4, 128, 0.875);
+    background: #ead706;
     color: #fff;
     transition: 450ms all ease-in-out;
 }
