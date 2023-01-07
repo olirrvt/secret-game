@@ -1,0 +1,26 @@
+.inicial h1 {
+    font-size: 3em;
+}
+
+.inicial p {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: -1rem 0 2rem 0;   
+}
+
+button {
+    background: #fff;
+    border: none;
+    border-radius: 3px;
+    font-weight: 700;
+    box-shadow: 0px 3px 4px #000;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: 450ms all ease-in-out;
+}
+
+button:hover {
+    background: rgba(252, 4, 128, 0.875);
+    color: #fff;
+    transition: 450ms all ease-in-out;
+}
