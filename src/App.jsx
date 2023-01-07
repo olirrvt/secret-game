@@ -39,11 +39,9 @@ function App() {
     const categorias = Object.keys(words);
     const categoria = 
     categorias[Math.floor(Math.random() * Object.keys(categorias).length)];
-    console.log(categoria);
     // Palavras
     const palavra = 
     words[categoria][Math.floor(Math.random() * words[categoria].length)];
-    console.log(palavra);
 
     return { 
       palavra, 
@@ -127,9 +125,6 @@ function App() {
         // Resetando o game
         startGame();
       };
-  
-      console.log(letrasUnicas);
-  
   }, [letrasCertas, letras, startGame])
 
   // Fim de jogo
