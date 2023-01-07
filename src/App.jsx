@@ -15,33 +15,160 @@ const stages = [
   { id: 3, name: "end" }
 ]
 
+const totalDeTentativas = 5;
+
 function App() {
 
+  // Routes
   const [gameStage, setGameStage] = useState(stages[0].name)
   const [words] = useState(wordsList);
 
+  // Sistema
   const [palavra, setPalavra] = useState("");
   const [categoria, setCategoria] = useState("");
   const [letras, setLetras] = useState([]);
-  
 
-  const startGame = () => {
-    setGameStage(stages[1].name);
+  // Interação do Usuário
+  const [letrasCertas, setLetrasCertas] = useState([]);
+  const [letrasErradas, setLetrasErradas] = useState([]);
+  const [tentativas, setTentativas] = useState(totalDeTentativas);
+  const [scores, setScores] = useState(50);
+  
+  const picurePhrases = useCallback(() => {
+    // Categorias
+    const categorias = Object.keys(words);
+    const categoria = 
+    categorias[Math.floor(Math.random() * Object.keys(categorias).length)];
+    console.log(categoria);
+    // Palavras
+    const palavra = 
+    words[categoria][Math.floor(Math.random() * words[categoria].length)];
+    console.log(palavra);
+
+    return { 
+      palavra, 
+      categoria 
+    };
+  }, [words]);
+
+  const verificarLetras = (letra) => {
+
+    const letraNormal = letra.toLowerCase();
+
+    // A letra já foi inserida?
+    if ( letrasCertas.includes(letraNormal) || letrasErradas.includes(letraNormal) ) {
+      return;
+    }
+
+    // O usuário acertou a letra?
+    if(letras.includes(letraNormal)) {
+      setLetrasCertas((letrasStatesCertas) => [
+        // Adicionando a arrays de letras certas
+        ...letrasStatesCertas,
+        letraNormal
+      ])
+    } else {
+      setLetrasErradas((letrasStatesErradas) => [
+        // Adicionando a arrays de letras erradas
+        ...letrasStatesErradas,
+        letraNormal
+    ]);
+
+      setTentativas((atualTentativas) => atualTentativas - 1);
+    }
   };
 
+  // Reset do game
+  const clearStates = () => {
+    setLetrasCertas([]);
+    setLetrasErradas([]);
+  };
+
+  // Fim de tentativas (Derrota)
+  useEffect(() => {
+    if (tentativas <= 0) {
+
+      clearStates();
+
+      setGameStage(stages[2].name)
+    }
+  }, [tentativas]);
+
+  // Início do jogo
+  const startGame = useCallback(() => {
+
+    setGameStage(stages[1].name);
+
+    // Limpando games
+    clearStates();
+
+    const { palavra, categoria } = picurePhrases();
+
+    let letrasFrases = palavra.split("");
+    letrasFrases = letrasFrases.map((element) => element.toLowerCase());
+
+    setPalavra(palavra);
+    setCategoria(categoria);
+    setLetras(letrasFrases);
+
+  }, [picurePhrases]);
+
+  // Acerto do usuário (Triunfos)
+  useEffect(() => {
+
+      // Arrays de letras únicas
+      const letrasUnicas = [... new Set(letras)]
+  
+      if (letrasCertas.length === letrasUnicas.length) {
+  
+        // Pontuação
+        setScores((scoreAtual) => scoreAtual += 100);
+  
+        // Resetando o game
+        startGame();
+      };
+  
+      console.log(letrasUnicas);
+  
+  }, [letrasCertas, letras, startGame])
+
+  // Fim de jogo
   const endGame = () => {
     setGameStage(stages[2].name);
   }
 
+  // Reset do game
   const resetGame = () => {
-    setGameStage(stages[1].name);
+
+    setScores(0);
+    setTentativas(totalDeTentativas);
+
+    setGameStage(stages[0].name);
   }
 
   return (
     <div className="App">
+
+      {/* HOME */}
       { gameStage === 'start' && <TelaPrincipal startGame={startGame}/> }
-      { gameStage === 'game' && <Game startGame={endGame}/> }
-      { gameStage === 'end' && <EndGame resetGame={resetGame}/> }
+
+      {/* START GAME */}
+      { gameStage === 'game' && 
+      <Game
+       verificarLetras={verificarLetras}
+       palavra={palavra}
+       categoria={categoria}
+       letras={letras}
+       letrasCertas={letrasCertas}
+       letrasErradas={letrasErradas}
+       tentativas={tentativas}
+       scores={scores}
+       /> 
+       }
+
+      {/* ENDGAME */}
+      { gameStage === 'end' && <EndGame resetGame={ resetGame } score={scores}/> }
+
     </div>
   )
 }

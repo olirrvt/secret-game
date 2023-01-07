@@ -1,0 +1,53 @@
+.game h1 {
+    font-size: 2.1em;
+}
+
+.pontos span {
+    font-weight: bold;
+}
+
+.dica span {
+    color: #d8eb0c;
+}
+
+/* Palavras */
+
+.container-palavras {
+    display: flex;
+    margin: 1.5rem;
+    padding: 1.5rem;
+    border: 11px solid rgb(213, 223, 15);
+}
+
+.letras,
+.square {
+    font-size: 70px;
+    line-height: 1.5;
+    border: 3px solid #000;
+    height: 100px;
+    width: 100px;
+    text-transform: uppercase;
+    background-color: #fff;
+    color: #000;
+    font-weight: bolder;
+}
+
+/* Letras */
+
+.container-letras p {
+    margin-bottom: 1.2em;
+}
+
+.container-letras form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container-letras input {
+    height: 50px;
+    width: 50px;
+    font-size: 2em;
+    text-align: center;
+    margin-right: 1em;
+}
