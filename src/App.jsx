@@ -32,7 +32,7 @@ function App() {
   const [letrasCertas, setLetrasCertas] = useState([]);
   const [letrasErradas, setLetrasErradas] = useState([]);
   const [tentativas, setTentativas] = useState(totalDeTentativas);
-  const [scores, setScores] = useState(50);
+  const [scores, setScores] = useState(0);
   
   const picurePhrases = useCallback(() => {
     // Categorias
@@ -76,7 +76,7 @@ function App() {
     }
   };
 
-  // Reset do game
+  // Limpando estados
   const clearStates = () => {
     setLetrasCertas([]);
     setLetrasErradas([]);
@@ -84,7 +84,7 @@ function App() {
 
   // Fim de tentativas (Derrota)
   useEffect(() => {
-    if (tentativas <= 0) {
+    if (tentativas === 0) {
 
       clearStates();
 
@@ -95,8 +95,6 @@ function App() {
   // Início do jogo
   const startGame = useCallback(() => {
 
-    setGameStage(stages[1].name);
-
     // Limpando games
     clearStates();
 
@@ -105,11 +103,22 @@ function App() {
     let letrasFrases = palavra.split("");
     letrasFrases = letrasFrases.map((element) => element.toLowerCase());
 
-    setPalavra(palavra);
     setCategoria(categoria);
+    setPalavra(palavra);
     setLetras(letrasFrases);
 
+    setGameStage(stages[1].name);
+
   }, [picurePhrases]);
+
+    // Reset do game
+    const resetGame = () => {
+
+      setScores(0);
+      setTentativas(totalDeTentativas);
+  
+      setGameStage(stages[0].name);
+    }
 
   // Acerto do usuário (Triunfos)
   useEffect(() => {
@@ -130,15 +139,6 @@ function App() {
   // Fim de jogo
   const endGame = () => {
     setGameStage(stages[2].name);
-  }
-
-  // Reset do game
-  const resetGame = () => {
-
-    setScores(0);
-    setTentativas(totalDeTentativas);
-
-    setGameStage(stages[0].name);
   }
 
   return (
