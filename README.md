@@ -1,7 +1,7 @@
 
 # Secret Game 👨‍🏫
 
-Aplicação desenvolvida para ser um jogo virtual de advinhar as palavras
+Aplicação desenvolvida para ser um jogo virtual de advinhar as palavras. Feito para práticas da tecnologia React, juntamente com o curso do Matheus Battisti.
 
 ## Resultado 👨‍✈️ 
 
